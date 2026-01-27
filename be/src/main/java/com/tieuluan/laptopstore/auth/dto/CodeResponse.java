@@ -1,0 +1,17 @@
+package com.tieuluan.laptopstore.auth.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CodeResponse {
+
+    private int code;
+    private String message;
+
+}

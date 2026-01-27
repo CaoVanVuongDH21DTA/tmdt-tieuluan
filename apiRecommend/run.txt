@@ -1,0 +1,19 @@
+- Cài đặt môi trường python chạy FastAPI: "pip install -r requirements.txt"
+
+-Chuẩn bị dữ liệu:
++Sản phẩm bán chạy 7 ngày qua nếu ko có đơn hàng nào bán chạy trong 7 ngày qua thì sẽ lấy 50 sản phẩm mới nhất
++Global Best Seller: Lấy 20 sản phẩm có số lượng bán cao nhất
++Category Best Seller: Lấy 10 sản phẩm bán chạy nhất của loại sản phẩm đó
++Ưu điểm chạy mỗi ngày 
++Lệnh chạy: "python build_stats.py"
+
+- Chạy máy chủ: "uvicorn app:app --reload"
+
+-Công nghệ sử dụng trong FastAPI:
++fastapi: Tạo khung sườn xây dựng API. Tạo endpoint nhanh, hỗ trợ bất đồng bộ
++uvicorn: Kết nối Internet và Python
++mysql-connector-python: Kết nối Python và MySQL
++sqlalchemy: Quản lý database, viết code kết nối và truy vấn 
++pandas: Dùng trong build_stats.py, đọc dữ liệu SQL thành bảng (DataFrame) tính toán, sắp xếp và nhóm dữ liệu cực nhanh 
++apscheduler: Quản lý tác vụ chạy nền, cho phép tự động thực thi việc cập nhật dữ liệu và chạy song song với server.
++python-dotenv: Tăng tính bảo mật, tác dụng đọc biến từ file .env

@@ -1,0 +1,57 @@
+tóm tắt cách hoạt động của:
+- JWTAuthenticationFilter:
+"Lấy đường dẫn request.
+
+Nếu nằm trong danh sách public API → bỏ qua filter.
+
+Nếu không, kiểm tra Authorization header.
+
+Nếu có Bearer token → parse username từ token.
+
+Load thông tin user từ database.
+
+Validate token có khớp với user không.
+
+Nếu hợp lệ → set Authentication vào SecurityContext.
+
+Cho phép request đi tiếp."
+
+- JWTTokenHelper:
+"Sinh token (generateToken): chứa username, thời gian phát hành, thời gian hết hạn, ký bằng secret key.
+
+Giải mã token (getAllClaimsFromToken): dùng secret key để parse token và lấy payload (Claims).
+
+Lấy thông tin từ token: ví dụ username, expireDate.
+
+Validate token (validateToken): kiểm tra username trong token có khớp DB không, và token chưa hết hạn.
+
+Hỗ trợ filter: cung cấp getToken() để filter lấy token từ header."
+
+-WebSecurityConfig:
+"Tắt CSRF vì bạn đang dùng JWT.
+
+Cho phép truy cập công khai:
+
+Swagger (/v3/api-docs/**, /swagger-ui/**)
+
+Auth API (/api/auth/**)
+
+Tất cả GET request (xem dữ liệu public như sản phẩm, danh mục).
+
+Các request khác → yêu cầu phải login (JWT hoặc OAuth2).
+
+JWT filter: chặn mọi request trước UsernamePasswordAuthenticationFilter để kiểm tra token.
+
+AuthenticationManager: sử dụng UserDetailsService để lấy thông tin user và PasswordEncoder để xác thực.
+
+PasswordEncoder: dùng BCrypt (mặc định an toàn)."
+
+
+CSRF là gì: 
+"CSRF (Cross-Site Request Forgery) là một kiểu tấn công web, 
+trong đó kẻ tấn công lợi dụng việc người dùng đã đăng nhập để thực hiện các hành động trái phép thay cho người dùng.
+
+Hiểu đơn giản: Khi bạn đã đăng nhập vào một website (ví dụ: ngân hàng, thương mại điện tử), 
+trình duyệt lưu cookie session. Nếu bạn truy cập vào một trang web độc hại, 
+trang đó có thể gửi request đến website hợp lệ bằng cookie của bạn 
+→ Website sẽ tưởng rằng request đó đến từ bạn thật."

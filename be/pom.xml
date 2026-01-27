@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.5.5</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.tieuluan</groupId>
+	<artifactId>laptopstore</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>laptopstore</name>
+	<description>Demo project for Spring Boot</description>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<!-- Starter cho Spring Data JPA -->
+		<!-- Cung cấp các thư viện cần thiết để làm việc với cơ sở dữ liệu bằng JPA/Hibernate -->
+		<!-- Bạn sẽ dùng nó để thao tác với Entity, Repository (CRUD, query) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!-- Starter cho Spring Web (REST API + MVC) -->
+		<!-- Cung cấp Spring MVC, REST controller, Tomcat embedded để chạy web server -->
+		<!-- Bạn cần nó để viết API hoặc ứng dụng web -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- DevTools cho Spring Boot -->
+		<!-- Hỗ trợ tính năng hot reload, tự động restart khi thay đổi code -->
+		<!-- scope=runtime: chỉ chạy khi ứng dụng đang chạy, không ảnh hưởng đến compile -->
+		<!-- optional=true: không bắt buộc khi deploy production -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- MySQL Connector -->
+		<!-- Driver JDBC để Spring Boot kết nối với cơ sở dữ liệu MySQL -->
+		<!-- scope=runtime: chỉ cần khi chạy ứng dụng, compile không cần -->
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Lombok -->
+		<!-- Giúp giảm code lặp (boilerplate) bằng cách tự sinh getter, setter, constructor, builder -->
+		<!-- optional=true: không cần khi chạy production nếu đã compile xong -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- Starter cho test -->
+		<!-- Cung cấp JUnit, Spring Test, AssertJ... để viết test cho ứng dụng -->
+		<!-- scope=test: chỉ được dùng khi chạy test, không ảnh hưởng production -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Starter cho Spring Security -->
+		<!-- Cung cấp authentication, authorization, filter chain để bảo mật ứng dụng -->
+		<!-- Dùng khi bạn cần login, JWT, phân quyền theo role, bảo vệ API -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<!-- 
+			Thư viện chính (API) của JJWT. 
+			Chứa các class, interface cần thiết để tạo, ký, parse (giải mã) JWT.
+			Phần này chỉ định nghĩa API, chưa có code thực thi.
+			Dùng khi bạn muốn gọi JwtBuilder, JwtParser,... trong code.
+		-->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.12.6</version>
+		</dependency>
+
+		<!-- 
+			Phần implementation (hiện thực) của jjwt-api. 
+			Chứa code thực thi để xử lý JWT, ví dụ: 
+			- Sinh token (signWith, compact)
+			- Giải mã và xác thực token (parseClaimsJws)
+			Được để scope=runtime vì chỉ cần khi chạy ứng dụng.
+		-->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.12.6</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- 
+			Module hỗ trợ chuyển đổi JSON bằng Jackson.
+			Dùng để serialize (chuyển object thành JSON) hoặc deserialize (JSON thành object) trong JWT.
+			Ví dụ: khi token chứa payload (claims) dạng JSON, Jackson sẽ giúp parse sang Map hoặc object Java.
+			Cũng để scope=runtime vì chỉ cần khi chạy.
+		-->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.12.6</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
+		<!-- Cloudinary SDK cho Java (phiên bản dùng HttpClient 4.4) -->
+		<!-- Dùng để upload, quản lý và xử lý hình ảnh/video trên dịch vụ Cloudinary -->
+		<!-- Tích hợp giúp lưu trữ ảnh sản phẩm, ảnh đại diện user... trên cloud thay vì lưu local -->
+		<!-- Có thể cấu hình resize, crop, tối ưu dung lượng ảnh khi lấy về -->
+		<dependency>
+			<groupId>com.cloudinary</groupId>
+			<artifactId>cloudinary-http44</artifactId>
+			<version>1.33.0</version>
+		</dependency>
+
+		<!-- Bộ nhớ tạm Redis -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+
+		<!-- ENV -->
+		<dependency>
+			<groupId>me.paulschwarz</groupId>
+			<artifactId>spring-dotenv</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
+		<!-- FIREBASE -->
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>9.2.0</version>
+		</dependency>
+
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
