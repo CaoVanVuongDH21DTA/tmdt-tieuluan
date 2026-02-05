@@ -427,23 +427,38 @@ const ProductModal = ({ isOpen, onClose, product, onSave, brands = [], categorie
             </div>
 
             {/* Block 4: Thông số kỹ thuật (Specs) */}
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <div className="flex justify-between items-center border-b pb-3 mb-4">
-                    <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wider">Thông số kỹ thuật (Chung)</h3>
-                    <button onClick={handleAddSpec} className="text-sm text-blue-600 font-bold hover:bg-blue-50 px-3 py-1.5 rounded-lg flex items-center transition-colors">
-                        <AddIcon fontSize="small" className="mr-1"/> Thêm dòng
-                    </button>
-                </div>
-                
-                <div className="space-y-3">
-                    {formData.specifications.map((spec, i) => (
-                        <div key={i} className="flex gap-3 items-center bg-gray-50 p-3 rounded-lg border border-gray-100">
-                            <input type="text" value={spec.name} placeholder="Tên (VD: Màn hình)" onChange={(e) => { const u = [...formData.specifications]; u[i].name = e.target.value; handleChange("specifications", u); }} className="w-1/3 border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-blue-500" />
-                            <input type="text" value={spec.value} placeholder="Giá trị (VD: 14 inch)" onChange={(e) => { const u = [...formData.specifications]; u[i].value = e.target.value; handleChange("specifications", u); }} className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-blue-500" />
-                            <button onClick={() => handleRemoveSpec(i)} className="text-gray-400 hover:text-red-500 p-2 rounded-full hover:bg-red-100 transition-all"><DeleteIcon fontSize="small"/></button>
-                        </div>
-                    ))}
-                </div>
+            <div className="space-y-3">
+                {formData.specifications.map((spec, i) => (
+                    <div key={i} className="flex gap-3 items-center bg-gray-50 p-3 rounded-lg border border-gray-100">
+                        <input 
+                            type="text" 
+                            value={spec.name} 
+                            placeholder="Tên (VD: Màn hình)" 
+                            onChange={(e) => { 
+                                const newSpecs = formData.specifications.map((item, index) => 
+                                    index === i ? { ...item, name: e.target.value } : item
+                                );
+                                handleChange("specifications", newSpecs); 
+                            }} 
+                            className="w-1/3 border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-blue-500" 
+                        />
+                        <input 
+                            type="text" 
+                            value={spec.value} 
+                            placeholder="Giá trị (VD: 14 inch)" 
+                            onChange={(e) => { 
+                                const newSpecs = formData.specifications.map((item, index) => 
+                                    index === i ? { ...item, value: e.target.value } : item
+                                );
+                                handleChange("specifications", newSpecs); 
+                            }} 
+                            className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-blue-500" 
+                        />
+                        <button onClick={() => handleRemoveSpec(i)} className="text-gray-400 hover:text-red-500 p-2 rounded-full hover:bg-red-100 transition-all">
+                            <DeleteIcon fontSize="small"/>
+                        </button>
+                    </div>
+                ))}
             </div>
         </div>
 

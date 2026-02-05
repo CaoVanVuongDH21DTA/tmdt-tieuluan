@@ -1,13 +1,10 @@
 package com.tieuluan.laptopstore.mapper;
 
 import com.tieuluan.laptopstore.dto.CategoryDto;
-import com.tieuluan.laptopstore.dto.CategoryTypeDto;
 import com.tieuluan.laptopstore.entities.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -18,21 +15,22 @@ public class CategoryMapper {
 
     public CategoryDto mapToDto(Category category) {
         if (category == null) return null;
-
-        // Map List<CategoryType> -> List<CategoryTypeDto>
-        List<CategoryTypeDto> typeDtos = new ArrayList<>();
+        CategoryDto dto = mapToDtoBasic(category);
         if (category.getCategoryTypes() != null) {
-            typeDtos = category.getCategoryTypes().stream()
-                    .map(t -> categoryTypeMapper.mapToDto(t))
-                    .collect(Collectors.toList());
+            dto.setCategoryTypes(category.getCategoryTypes().stream()
+                    .map(categoryTypeMapper::mapToDto) 
+                    .collect(Collectors.toList()));
         }
+        return dto;
+    }
 
+    public CategoryDto mapToDtoBasic(Category category) {
+        if (category == null) return null;
         return CategoryDto.builder()
                 .id(category.getId())
                 .name(category.getName())
                 .code(category.getCode())
                 .description(category.getDescription())
-                .categoryTypes(typeDtos) // Gán List DTO
                 .build();
     }
 

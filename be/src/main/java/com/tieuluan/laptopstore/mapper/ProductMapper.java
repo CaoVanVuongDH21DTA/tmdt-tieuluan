@@ -1,8 +1,5 @@
 package com.tieuluan.laptopstore.mapper;
 
-import com.tieuluan.laptopstore.dto.BrandDto;
-import com.tieuluan.laptopstore.dto.CategoryDto;
-import com.tieuluan.laptopstore.dto.CategoryTypeDto;
 import com.tieuluan.laptopstore.dto.FlashSaleDtos;
 import com.tieuluan.laptopstore.dto.ProductDto;
 import com.tieuluan.laptopstore.dto.ProductResourceDto;
@@ -37,6 +34,17 @@ public class ProductMapper {
     @Autowired
     @Lazy
     private CategoryService categoryService;
+
+    @Autowired
+    private BrandMapper brandMapper;
+
+    @Autowired
+    @Lazy
+    private CategoryMapper categoryMapper;
+
+    @Autowired
+    @Lazy
+    private CategoryTypeMapper categoryTypeMapper;
 
     @Autowired
     private FlashSaleItemRepository flashSaleItemRepository;
@@ -255,13 +263,15 @@ public class ProductMapper {
 
         // Map Relations (Brand, Category, CategoryType)...
         if (product.getBrand() != null) {
-            builder.brand(BrandDto.builder().id(product.getBrand().getId()).name(product.getBrand().getName()).build());
+            builder.brand(brandMapper.mapToDto(product.getBrand())); 
         }
+
         if (product.getCategory() != null) {
-            builder.category(CategoryDto.builder().id(product.getCategory().getId()).name(product.getCategory().getName()).build());
+            builder.category(categoryMapper.mapToDtoBasic(product.getCategory()));
         }
+
         if (product.getCategoryType() != null) {
-            builder.categoryType(CategoryTypeDto.builder().id(product.getCategoryType().getId()).name(product.getCategoryType().getName()).build());
+            builder.categoryType(categoryTypeMapper.mapToDtoBasic(product.getCategoryType()));
         }
 
         builder.variants(mapProductVariantListToDto(product.getVariants()));
@@ -313,7 +323,7 @@ public class ProductMapper {
     private List<ProductSpecificationDto> mapProductSpecificationsToDto(List<ProductSpecification> specs) {
         if (specs == null) return new ArrayList<>();
         return specs.stream().map(ps -> ProductSpecificationDto.builder()
-                .name(ps.getName()).value(ps.getValue()).build()).collect(Collectors.toList());
+                .id(ps.getId()).name(ps.getName()).value(ps.getValue()).build()).collect(Collectors.toList());
     }
     
      public FlashSaleDtos.ProductFlashSaleInfo mapToFlashSaleInfo(FlashSaleItem item) {

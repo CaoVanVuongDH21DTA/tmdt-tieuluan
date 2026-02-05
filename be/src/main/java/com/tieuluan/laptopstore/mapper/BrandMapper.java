@@ -16,4 +16,15 @@ public class BrandMapper {
         brand.setLogoUrl(dto.getLogoUrl());
         return brand;
     }
+
+    public BrandDto mapToDto(Brand brand) {
+    if (brand == null) return null;
+    return BrandDto.builder()
+            .id(brand.getId())
+            .name(brand.getName())
+            .code(brand.getCode())
+            .description(brand.getDescription())
+            .logoUrl(brand.getLogoUrl())
+            .build(); 
+}
 }

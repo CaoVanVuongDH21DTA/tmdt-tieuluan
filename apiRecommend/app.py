@@ -29,7 +29,7 @@ reco_data = {}
 # --- HÀM CẬP NHẬT DỮ LIỆU ĐỊNH KỲ ---
 def update_recommender_data():
     """Hàm này được Scheduler gọi để cập nhật dữ liệu mới"""
-    logger.info("[Scheduler] Đang chạy cập nhật thống kê 7 ngày...")
+    logger.info("[Scheduler] Đang chạy cập nhật thống kê sản phẩm bán chạy 7 ngày...")
     try:
         # 1. Chạy tính toán lại 
         build_popularity_stats()

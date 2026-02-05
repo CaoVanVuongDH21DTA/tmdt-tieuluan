@@ -5,9 +5,9 @@ import com.tieuluan.laptopstore.dto.ProductDto;
 import com.tieuluan.laptopstore.entities.CategoryType;
 import com.tieuluan.laptopstore.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,27 +15,34 @@ import java.util.stream.Collectors;
 public class CategoryTypeMapper {
 
     @Autowired
+    @Lazy
     private ProductMapper productMapper;
 
     public CategoryTypeDto mapToDto(CategoryType type) {
         if (type == null) return null;
 
-        // Map List<Product> -> List<ProductDto>
-        List<ProductDto> productDtos = new ArrayList<>();
+        CategoryTypeDto dto = mapToDtoBasic(type);
+
         if (type.getProducts() != null) {
-            productDtos = type.getProducts().stream()
-                    .filter(Product::isEnable) // Chỉ lấy sản phẩm đang bật
-                    .map(p -> productMapper.mapToProductDto(p)) // Gọi ProductMapper để lấy FlashSale
+            List<ProductDto> productDtos = type.getProducts().stream()
+                    .filter(Product::isEnable)
+                    .map(p -> productMapper.mapToProductDto(p))
                     .collect(Collectors.toList());
+            dto.setProducts(productDtos);
         }
 
+        return dto;
+    }
+
+    public CategoryTypeDto mapToDtoBasic(CategoryType type) {
+        if (type == null) return null;
+        
         return CategoryTypeDto.builder()
                 .id(type.getId())
                 .name(type.getName())
                 .code(type.getCode())
                 .description(type.getDescription())
                 .imgCategory(type.getImgCategory())
-                .products(productDtos) // Gán List DTO
                 .build();
     }
 
